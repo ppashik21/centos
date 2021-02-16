@@ -1,0 +1,6 @@
+#!/bin/bash
+
+mkdir ss
+cd ss
+touch f2
+ls -lsa

@@ -1,0 +1,25 @@
+#!/bin/bash
+
+mkdir /var/www/test.ru
+sudo apt-get install curl
+cd /tmp
+curl -O https://ru.wordpress.org/latest-ru_RU.tar.gz
+tar xzvf latest-ru_RU.tar.gz
+cp -a /tmp/wordpress/. /var/www/test.ru/
+echo 
+"<VirtualHost *:80>
+ServerName test.ru
+ServerAlias www.test.tu
+ServerAdmin admin@example.com
+DocumentRoot /var/www/test.ru
+<Directory /var/www/test.ru>
+Options -Indexes +FollowSymLinks
+AllowOverride ALL
+</Directory>
+ErrorLog ${APACHE_LOG_DIR}/test.ru-error.log
+CustomLog ${APACHE_LOG_DIR}/test.ru-access.log combined
+</VirtualHost>" /var/apache2/sites-available/test.ru.conf
+sudo a2ensite test.ru
+systemctl restart apache2.service
+
+exit
