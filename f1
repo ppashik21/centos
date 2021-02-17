@@ -1,12 +1,14 @@
 #!/bin/bash
 
-sudo yum install httpd mariadb-server mariadb mysql-server php php-mysql php libapache2-mod-php php-mysql php-cgi php-gd php-zip php-xml php-xmlrpc php-curl php-json php-mbstring php-cli --yes
-sudo systemctl start httpd.service
-iptables -A IN_public_allow -p tcp -m tcp --dport 80 -m conntrack --ctstate NEW -j ACCEPT
-iptables-save
-sudo yum install http://dev.mysql.com/get/mysql57-community-release-el7-7.noarch.rpm
+sudo yum install httpd httpd-tools mysql mysql-server php php-cgi php-gd php-zip php-xml php-xmlrpc php-curl php-common php-json php-mbstring php-cli -y
 sudo systemctl start mysqld
-sudo mysql_secure_installation
-sudo systemctl start mariadb
-sudo systemctl restart httpd.service
+sudo systemctl start httpd
+sudo systemctl start php-fpm
+sudo mkdir /var/www/test.ru
+sudo yum install curl
+cd /tmp
+curl -O https://ru.wordpress.org/latest-ru_RU.tar.gz
+tar xzvf latest-ru_RU.tar.gz
+sudo cp -a /tmp/wordpress/. /var/www/test.ru/
+
 exit
